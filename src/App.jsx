@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
+import SearchBar from "./components/SearchBar"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [destinations, setDestinations] = useState([])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="min-h-screen bg-gray-50">
+      <nav className="bg-blue-600 text-white p-4">
+        <h1 className="text-xl font-semibold">Travel Planner</h1>
+      </nav>
+
+      <main className="p-6">
+        <SearchBar setDestinations={setDestinations} />
+
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {destinations.map((dest, index) => (
+            <div
+              key={index}
+              className="bg-white p-4 rounded shadow"
+            >
+              <h2 className="text-lg font-bold">
+                {dest.name}
+              </h2>
+              <p className="text-gray-600">
+                {dest.address?.countryName}
+              </p>
+            </div>
+          ))}
+        </div>
+      </main>
+    </div>
   )
 }
 
