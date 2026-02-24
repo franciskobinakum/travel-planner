@@ -15,6 +15,8 @@ function DestinationDetails() {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
+
+      {/* 🖼 Image */}
       {data.thumbnail && (
         <img
           src={data.thumbnail.source}
@@ -23,8 +25,22 @@ function DestinationDetails() {
         />
       )}
 
-      <h1 className="text-3xl font-bold mb-4">{data.title}</h1>
-      <p className="text-gray-700 leading-relaxed">{data.extract}</p>
+      {/* 📝 Title */}
+      <h1 className="text-3xl font-bold mb-4">
+        {data.title}
+      </h1>
+
+      {/* 📖 Description */}
+      <p className="text-gray-700 leading-relaxed mb-6">
+        {data.extract}
+      </p>
+
+      {/* 🗺 Map Integration */}
+      <iframe
+        title="map"
+        className="w-full h-80 rounded-lg shadow"
+        src={`https://maps.google.com/maps?q=${title}&output=embed`}
+      ></iframe>
     </div>
   )
 }
