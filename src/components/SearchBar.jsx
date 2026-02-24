@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
 
 function SearchBar({ setDestinations }) {
   const [query, setQuery] = useState("")
@@ -19,17 +18,28 @@ function SearchBar({ setDestinations }) {
 
       const data = await response.json()
 
-      // data structure:
-      // [searchTerm, [titles], [descriptions], [links]]
+      const results = await Promise.all(
+        data[1].map(async (title, index) => {
+          try {
+            const summaryRes = await fetch(
+              `https://en.wikipedia.org/api/rest_v1/page/summary/${title}`
+            )
+            const summaryData = await summaryRes.json()
 
-      const formattedResults = data[1].map((title, index) => ({
-        id: index,
-        name: title,
-        description: data[2][index],
-        link: data[3][index]
-      }))
+            return {
+              id: index,
+              name: title,
+              description: summaryData.extract,
+              link: summaryData.content_urls?.desktop?.page,
+              image: summaryData.thumbnail?.source || null
+            }
+          } catch {
+            return null
+          }
+        })
+      )
 
-      setDestinations(formattedResults)
+      setDestinations(results.filter(Boolean))
 
     } catch (err) {
       console.error(err)
