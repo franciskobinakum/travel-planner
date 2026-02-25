@@ -1,40 +1,50 @@
-import { useState } from "react"
 import { Routes, Route } from "react-router-dom"
-import Home from "./components/Home"
-import DestinationDetails from "./components/DestinationDetails"
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import { AnimatePresence } from "framer-motion"
+import Navbar from "./components/Navbar"
 import ProtectedRoute from "./components/ProtectedRoute"
 
+import Home from "./pages/Home"
+import DestinationDetails from "./pages/DestinationDetails"
+import MyTrip from "./pages/MyTrip"
+import Login from "./pages/Login"
+
 function App() {
-  const [itinerary, setItinerary] = useState([])
+  const user = JSON.parse(localStorage.getItem("currentUser"))
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <Home
-              itinerary={itinerary}
-              setItinerary={setItinerary}
-            />
-          </ProtectedRoute>
-        }
-      />
+    <>
+      {user && <Navbar />}
 
-      <Route
-        path="/destination/:title"
-        element={
-          <ProtectedRoute>
-            <DestinationDetails />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
+      <AnimatePresence mode="wait">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/destination/:title"
+            element={
+              <ProtectedRoute>
+                <DestinationDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-trip"
+            element={
+              <ProtectedRoute>
+                <MyTrip />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </AnimatePresence>
+    </>
   )
 }
 

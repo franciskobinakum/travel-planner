@@ -1,21 +1,29 @@
 import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
 
 function DestinationCard({ destination }) {
   return (
-    <div className="bg-white p-4 shadow rounded">
-      <h2 className="text-lg font-bold">
-        {destination.name}
-      </h2>
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      className="bg-white rounded shadow overflow-hidden"
+    >
+      <img
+        src={destination.image}
+        alt={destination.name}
+        className="h-48 w-full object-cover"
+      />
 
-      <p>{destination.address.countryName}</p>
+      <div className="p-4">
+        <h2 className="font-bold">{destination.name}</h2>
 
-      <Link
-        to={`/details/${destination.name}`}
-        className="text-blue-600 underline mt-2 inline-block"
-      >
-        View Details
-      </Link>
-    </div>
+        <Link
+          to={`/destination/${destination.name}`}
+          className="text-blue-600 text-sm"
+        >
+          View Details
+        </Link>
+      </div>
+    </motion.div>
   )
 }
 
