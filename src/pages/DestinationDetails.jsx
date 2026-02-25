@@ -1,130 +1,69 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import axios from "axios"
 
 function DestinationDetails() {
-  const { city } = useParams()
-
-  const [wikiData, setWikiData] = useState(null)
-  const [hotels, setHotels] = useState([])
-  const [loading, setLoading] = useState(false)
+  const { title } = useParams()
+  const [data, setData] = useState(null)
+  const [attractions, setAttractions] = useState([])
 
   useEffect(() => {
-    fetchWikipedia()
-    fetchHotels()
-  }, [city])
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`)
+      .then(res => res.json())
+      .then(data => setData(data))
 
-  const fetchWikipedia = async () => {
-    try {
-      const res = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/page/summary/${city}`
-      )
-      const data = await res.json()
-      setWikiData(data)
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
-  const fetchHotels = async () => {
-    try {
-      setLoading(true)
-
-      const tokenResponse = await axios.post(
-        "https://test.api.amadeus.com/v1/security/oauth2/token",
-        new URLSearchParams({
-          grant_type: "client_credentials",
-          client_id: import.meta.env.VITE_AMADEUS_KEY,
-          client_secret: import.meta.env.VITE_AMADEUS_SECRET,
-        })
-      )
-
-      const accessToken = tokenResponse.data.access_token
-
-      const hotelRes = await axios.get(
-        "https://test.api.amadeus.com/v2/shopping/hotel-offers",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-          params: {
-            cityCode: city.substring(0, 3).toUpperCase(),
-          },
-        }
-      )
-
-      setHotels(hotelRes.data.data || [])
-    } catch (err) {
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const saveToItinerary = (item) => {
-    const existing =
-      JSON.parse(localStorage.getItem("itinerary")) || []
-    localStorage.setItem(
-      "itinerary",
-      JSON.stringify([...existing, item])
+    fetch(
+      `https://en.wikipedia.org/w/api.php?action=opensearch&search=${title}%20tourist%20attractions&limit=5&namespace=0&format=json&origin=*`
     )
-    alert("Saved to itinerary!")
-  }
+      .then(res => res.json())
+      .then(data => {
+        const results = data[1].map((name, index) => ({
+          name,
+          link: data[3][index]
+        }))
+        setAttractions(results)
+      })
+  }, [title])
+
+  if (!data) return <p className="p-6">Loading...</p>
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      {/* Wikipedia Section */}
-      {wikiData && (
-        <div className="bg-white p-6 shadow rounded mb-6">
-          <h2 className="text-2xl font-bold mb-2">
-            {wikiData.title}
-          </h2>
+    <div className="max-w-4xl mx-auto p-6">
 
-          {wikiData.thumbnail && (
-            <img
-              src={wikiData.thumbnail.source}
-              alt={wikiData.title}
-              className="w-full h-64 object-cover rounded mb-4"
-            />
-          )}
-
-          <p className="mb-4">{wikiData.extract}</p>
-
-          <a
-            href={wikiData.content_urls?.desktop?.page}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 underline"
-          >
-            Read more on Wikipedia
-          </a>
-        </div>
+      {data.thumbnail && (
+        <img
+          src={data.thumbnail.source}
+          alt={data.title}
+          className="w-full h-80 object-cover rounded-lg mb-6"
+        />
       )}
 
-      {/* Hotels */}
-      <h3 className="text-xl font-bold mb-4">
-        Accommodations
-      </h3>
+      <h1 className="text-3xl font-bold mb-4">{data.title}</h1>
+      <p className="mb-6">{data.extract}</p>
 
-      {loading && <p>Loading hotels...</p>}
+      {/* Attractions Section */}
+      <h2 className="text-2xl font-bold mb-4">Top Attractions</h2>
 
-      {hotels.slice(0, 5).map((hotel, i) => (
-        <div
-          key={i}
-          className="bg-white p-4 shadow rounded mb-3"
-        >
-          <p>{hotel.hotel?.name}</p>
-          <p>
-            Price: {hotel.offers?.[0]?.price?.total}{" "}
-            {hotel.offers?.[0]?.price?.currency}
-          </p>
+      <ul className="space-y-2">
+        {attractions.map((attraction, index) => (
+          <li key={index}>
+            <a
+              href={attraction.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              {attraction.name}
+            </a>
+          </li>
+        ))}
+      </ul>
 
-          <button
-            onClick={() => saveToItinerary(hotel)}
-            className="mt-2 bg-green-600 text-white px-3 py-1 rounded"
-          >
-            Add to Itinerary
-          </button>
-        </div>
-      ))}
+      {/* Map */}
+      <iframe
+        title="map"
+        className="w-full h-80 mt-8 rounded-lg shadow"
+        src={`https://maps.google.com/maps?q=${title}&output=embed`}
+      ></iframe>
     </div>
   )
 }
