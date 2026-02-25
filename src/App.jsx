@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import { AnimatePresence } from "framer-motion"
 import Navbar from "./components/Navbar"
 import ProtectedRoute from "./components/ProtectedRoute"
@@ -7,16 +7,25 @@ import Home from "./pages/Home"
 import DestinationDetails from "./pages/DestinationDetails"
 import MyTrip from "./pages/MyTrip"
 import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function App() {
+  const location = useLocation()
   const user = JSON.parse(localStorage.getItem("currentUser"))
 
+  const hideNavbar =
+    location.pathname === "/login" ||
+    location.pathname === "/register"
+
   return (
-    <>
-      {user && <Navbar />}
+    <div className="min-h-screen bg-gray-100">
+
+      {/* ✅ Navbar only when logged in AND not on auth pages */}
+      {user && !hideNavbar && <Navbar />}
 
       <AnimatePresence mode="wait">
-        <Routes>
+        <Routes location={location} key={location.pathname}>
+
           <Route
             path="/"
             element={
@@ -25,6 +34,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/destination/:title"
             element={
@@ -33,6 +43,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/my-trip"
             element={
@@ -41,10 +52,13 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
         </Routes>
       </AnimatePresence>
-    </>
+    </div>
   )
 }
 
