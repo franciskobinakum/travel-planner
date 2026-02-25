@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 
 import Hero from "../components/Hero"
 import AnimatedPage from "../components/AnimatedPage"
+import MapPreview from "../components/MapPreview"
 
 function Home() {
   const [query, setQuery] = useState("")
@@ -23,14 +24,31 @@ function Home() {
         `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${query}&format=json&origin=*`
       )
 
-      const results = res.data.query.search.map((item, index) => ({
-        id: index,
-        name: item.title,
-        description: item.snippet,
-        image: `https://picsum.photos/seed/${encodeURIComponent(
-          item.title
-        )}/500/300`
-      }))
+      const results = await Promise.all(
+        res.data.query.search.map(async (item, index) => {
+
+          const coordRes = await axios.get(
+            `https://en.wikipedia.org/w/api.php?action=query&titles=${item.title}&prop=coordinates&format=json&origin=*`
+          )
+
+          const pages = coordRes.data.query.pages
+          const page = Object.values(pages)[0]
+
+          const lat = page?.coordinates?.[0]?.lat || null
+          const lng = page?.coordinates?.[0]?.lon || null
+
+          return {
+            id: index,
+            name: item.title,
+            description: item.snippet,
+            image: `https://picsum.photos/seed/${encodeURIComponent(
+              item.title
+            )}/500/300`,
+            lat,
+            lng
+          }
+        })
+      )
 
       setDestinations(results)
     } catch (error) {
@@ -44,19 +62,13 @@ function Home() {
 
   return (
     <>
-      {/* 🌄 HERO SECTION */}
       <Hero />
 
       <AnimatedPage>
         <div className="max-w-6xl mx-auto p-6">
 
-          {/* 💰 Budget Calculator */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-white p-6 rounded-xl shadow-lg mb-10"
-          >
+          {/* Budget */}
+          <div className="bg-white p-6 rounded-xl shadow-lg mb-10">
             <h2 className="text-2xl font-bold mb-4">
               Budget Calculator
             </h2>
@@ -82,15 +94,10 @@ function Home() {
             <p className="mt-4 text-green-600 font-semibold text-lg">
               Estimated Total Budget: ${totalBudget}
             </p>
-          </motion.div>
+          </div>
 
-          {/* 🔍 Search Section */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex gap-4 mb-8"
-          >
+          {/* Search */}
+          <div className="flex gap-4 mb-8">
             <input
               type="text"
               placeholder="Search destination..."
@@ -98,30 +105,29 @@ function Home() {
               onChange={(e) => setQuery(e.target.value)}
               className="border p-3 rounded w-full"
             />
-
             <button
               onClick={searchDestinations}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-lg transition"
+              className="bg-blue-600 text-white px-6 rounded-lg"
             >
               Search
             </button>
-          </motion.div>
+          </div>
 
-          {/* 🔄 Loading */}
           {loading && (
             <p className="text-center text-gray-500">
               Searching destinations...
             </p>
           )}
 
-          {/* 🌍 Results Grid */}
+          {/* Results Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {destinations.map((destination) => (
               <motion.div
                 key={destination.id}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.03 }}
                 className="bg-white rounded-xl shadow-lg overflow-hidden"
               >
+
                 <img
                   src={destination.image}
                   alt={destination.name}
@@ -140,9 +146,18 @@ function Home() {
                     }}
                   />
 
+                  {/* 🗺 Map Preview */}
+                  {destination.lat && destination.lng && (
+                    <MapPreview
+                      lat={destination.lat}
+                      lng={destination.lng}
+                      name={destination.name}
+                    />
+                  )}
+
                   <Link
                     to={`/destination/${destination.name}`}
-                    className="text-blue-600 hover:underline text-sm"
+                    className="text-blue-600 hover:underline text-sm mt-4 block"
                   >
                     View Details →
                   </Link>
