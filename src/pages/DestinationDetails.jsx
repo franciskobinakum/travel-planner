@@ -1,70 +1,101 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
+import axios from "axios"
+import AnimatedPage from "../components/AnimatedPage"
+import RouteMap from "../components/RouteMap"
 
 function DestinationDetails() {
   const { title } = useParams()
-  const [data, setData] = useState(null)
-  const [attractions, setAttractions] = useState([])
 
+  const [destinationCoords, setDestinationCoords] = useState(null)
+  const [departureCoords, setDepartureCoords] = useState(null)
+  const [departureCity, setDepartureCity] = useState("London")
+  const [mode, setMode] = useState("car")
+  const [loading, setLoading] = useState(true)
+
+  // 🔎 Fetch coordinates using OpenStreetMap Nominatim
+  const fetchCoordinates = async (city, setter) => {
+    try {
+      const res = await axios.get(
+        "https://nominatim.openstreetmap.org/search",
+        {
+          params: {
+            format: "json",
+            q: city
+          },
+          headers: {
+            "Accept-Language": "en"
+          }
+        }
+      )
+
+      if (res.data.length > 0) {
+        setter({
+          lat: parseFloat(res.data[0].lat),
+          lng: parseFloat(res.data[0].lon)
+        })
+      }
+    } catch (error) {
+      console.error("Geocoding error:", error)
+    }
+  }
+
+  // 📍 Fetch destination + departure coordinates
   useEffect(() => {
-    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${title}`)
-      .then(res => res.json())
-      .then(data => setData(data))
+    const loadCoords = async () => {
+      setLoading(true)
 
-    fetch(
-      `https://en.wikipedia.org/w/api.php?action=opensearch&search=${title}%20tourist%20attractions&limit=5&namespace=0&format=json&origin=*`
-    )
-      .then(res => res.json())
-      .then(data => {
-        const results = data[1].map((name, index) => ({
-          name,
-          link: data[3][index]
-        }))
-        setAttractions(results)
-      })
-  }, [title])
+      await fetchCoordinates(title, setDestinationCoords)
+      await fetchCoordinates(departureCity, setDepartureCoords)
 
-  if (!data) return <p className="p-6">Loading...</p>
+      setLoading(false)
+    }
+
+    loadCoords()
+  }, [title, departureCity])
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <AnimatedPage>
+      <div className="max-w-6xl mx-auto p-6">
 
-      {data.thumbnail && (
-        <img
-          src={data.thumbnail.source}
-          alt={data.title}
-          className="w-full h-80 object-cover rounded-lg mb-6"
-        />
-      )}
+        <h1 className="text-3xl font-bold mb-6">
+          Route Preview to {title}
+        </h1>
 
-      <h1 className="text-3xl font-bold mb-4">{data.title}</h1>
-      <p className="mb-6">{data.extract}</p>
+        {/* 🛫 Departure Input */}
+        <div className="mb-6">
+          <label className="block mb-2 font-semibold">
+            Departure City
+          </label>
 
-      {/* Attractions Section */}
-      <h2 className="text-2xl font-bold mb-4">Top Attractions</h2>
+          <input
+            type="text"
+            value={departureCity}
+            onChange={(e) => setDepartureCity(e.target.value)}
+            className="border p-3 rounded w-full"
+          />
+        </div>
 
-      <ul className="space-y-2">
-        {attractions.map((attraction, index) => (
-          <li key={index}>
-            <a
-              href={attraction.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              {attraction.name}
-            </a>
-          </li>
-        ))}
-      </ul>
+        
 
-      {/* Map */}
-      <iframe
-        title="map"
-        className="w-full h-80 mt-8 rounded-lg shadow"
-        src={`https://maps.google.com/maps?q=${title}&output=embed`}
-      ></iframe>
-    </div>
+        {/* 🗺 Loading State */}
+        {loading && (
+          <p className="text-gray-500">
+            Loading route...
+          </p>
+        )}
+
+        {/* 🗺 Route Map */}
+        {!loading && destinationCoords && departureCoords && (
+          <RouteMap
+            from={departureCoords}
+            to={destinationCoords}
+            mode={mode}
+          />
+        )}
+
+      </div>
+    </AnimatedPage>
   )
 }
 
