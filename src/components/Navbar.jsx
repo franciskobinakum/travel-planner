@@ -15,6 +15,7 @@ function Navbar() {
       <nav className="flex gap-6 items-center">
         <Link to="/">Home</Link>
         <Link to="/my-trip">My Trip</Link>
+        <Link to="/explore">Explore</Link>
 
         <button
           onClick={logout}

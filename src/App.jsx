@@ -8,6 +8,7 @@ import DestinationDetails from "./pages/DestinationDetails"
 import MyTrip from "./pages/MyTrip"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import Explore from "./pages/Explore"
 
 function App() {
   const location = useLocation()
@@ -52,6 +53,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/explore"
+            element={
+              <ProtectedRoute>
+                <Explore />
+              </ProtectedRoute>
+           }
+         />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
