@@ -31,7 +31,7 @@ function Login() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 shadow rounded w-96">
+      <div className="bg-white dark:bg-gray-800 p-8 shadow rounded transition w-96">
 
         <h2 className="text-2xl font-bold mb-6 text-center">
           Login
@@ -42,7 +42,7 @@ function Login() {
           <input
             type="email"
             placeholder="Email"
-            className="border p-3 rounded w-full mb-4"
+            className="border p-3 rounded dark:bg-gray-700 dark:border-gray-600 w-full mb-4"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -50,7 +50,7 @@ function Login() {
           <input
             type="password"
             placeholder="Password"
-            className="border p-3 rounded w-full mb-4"
+            className="border p-3 rounded dark:bg-gray-700 dark:border-gray-600 w-full mb-4"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

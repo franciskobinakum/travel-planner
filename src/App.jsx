@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom"
 import { AnimatePresence } from "framer-motion"
+
 import Navbar from "./components/Navbar"
 import ProtectedRoute from "./components/ProtectedRoute"
 
@@ -19,9 +20,8 @@ function App() {
     location.pathname === "/register"
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 text-black dark:text-white transition-colors duration-300">
 
-      {/* ✅ Navbar only when logged in AND not on auth pages */}
       {user && !hideNavbar && <Navbar />}
 
       <AnimatePresence mode="wait">
@@ -53,14 +53,15 @@ function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/explore"
             element={
               <ProtectedRoute>
                 <Explore />
               </ProtectedRoute>
-           }
-         />
+            }
+          />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

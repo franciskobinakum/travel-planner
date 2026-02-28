@@ -28,14 +28,14 @@ function Register() {
       <input
         type="email"
         placeholder="Email"
-        className="border p-3 rounded w-full mb-3"
+        className="border p-3 rounded dark:bg-gray-700 dark:border-gray-600 w-full mb-3"
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
         type="password"
         placeholder="Password"
-        className="border p-3 rounded w-full mb-3"
+        className="border p-3 rounded dark:bg-gray-700 dark:border-gray-600 w-full mb-3"
         onChange={(e) => setPassword(e.target.value)}
       />
 

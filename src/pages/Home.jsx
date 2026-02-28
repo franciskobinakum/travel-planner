@@ -69,7 +69,7 @@ function Home() {
 
           <Link
             to="/explore"
-            className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:scale-105 transition duration-300"
+            className="bg-white dark:bg-gray-800 text-blue-600 px-8 py-3 rounded-full font-semibold hover:scale-105 transition duration-300"
           >
             Start Exploring
           </Link>
@@ -161,7 +161,7 @@ function Home() {
                   {destination.name}
                 </h2>
 
-                <p className="text-gray-600 mb-4 text-sm">
+                <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
                   {destination.description
                     ? destination.description.slice(0, 120) + "..."
                     : "No description available."}
@@ -196,11 +196,11 @@ function FeatureCard({ title, description, icon }) {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      className="bg-white p-8 rounded-xl shadow"
+      className="text-gray-600 dark:text-gray-300 p-8 rounded-xl shadow"
     >
       <div className="text-4xl mb-4">{icon}</div>
       <h3 className="text-xl font-bold mb-3">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <p className="text-gray-600 dark:text-gray-300">{description}</p>
     </motion.div>
   )
 }
