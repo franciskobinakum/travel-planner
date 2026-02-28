@@ -7,7 +7,7 @@ function Hero() {
   return (
     <div className="relative h-[80vh] w-full overflow-hidden">
 
-      {/* 🌄 Background Image */}
+      {/*  Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -16,10 +16,10 @@ function Hero() {
         }}
       />
 
-      {/* 🌑 Dark Overlay */}
+      {/*  Dark Overlay */}
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* ✨ Content */}
+      {/* Content */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}

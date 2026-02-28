@@ -10,7 +10,7 @@ function Explore() {
 
   const city = "Paris"
 
-  // 🔎 Get coordinates
+  // Get coordinates
   const fetchCoordinates = async () => {
     const res = await axios.get(
       "https://nominatim.openstreetmap.org/search",
@@ -30,7 +30,7 @@ function Explore() {
     }
   }
 
-  // 🏛 Fetch POIs
+  // Fetch POIs
   const fetchPOIs = async (lat, lng) => {
     const query = `
       [out:json];
@@ -103,9 +103,9 @@ function Explore() {
 export default Explore
 
 
-// =============================
-// Generic Section (Attractions & Activities)
-// =============================
+
+// Section (Attractions & Activities)
+
 
 function Section({ title, items }) {
   if (!items.length) return null
@@ -135,9 +135,9 @@ function Section({ title, items }) {
 }
 
 
-// =============================
-// 🏨 Hotel Section With Price Estimator
-// =============================
+
+// Hotel Section With Price Estimator
+
 
 function HotelSection({ hotels }) {
   if (!hotels.length) return null
@@ -158,9 +158,9 @@ function HotelSection({ hotels }) {
 }
 
 
-// =============================
-// 💰 Hotel Card (Estimator + Booking)
-// =============================
+
+// Hotel Card (Estimator + Booking)
+
 
 function HotelCard({ hotel }) {
   const basePrice = Math.floor(Math.random() * 200) + 80

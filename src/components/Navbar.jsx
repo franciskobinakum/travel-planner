@@ -24,7 +24,7 @@ function Navbar() {
         <Link to="/my-trip">My Trip</Link>
         <Link to="/explore">Explore</Link>
 
-        {/* 🌙 Dark Mode Toggle */}
+        {/* Dark Mode Toggle */}
         <button
           onClick={toggleTheme}
           className="bg-white dark:bg-gray-700 text-blue-600 dark:text-white px-3 py-1 rounded transition"

@@ -25,7 +25,7 @@ function Routing({ from, to, mode }) {
         L.latLng(from.lat, from.lng),
         L.latLng(to.lat, to.lng)
       ],
-      // ⚠️ OSRM public server supports driving only
+      // OSRM public server supports driving only
       router: L.Routing.osrmv1({
         serviceUrl: "https://router.project-osrm.org/route/v1"
       }),

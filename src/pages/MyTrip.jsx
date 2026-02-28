@@ -28,7 +28,7 @@ function MyTrip() {
 
       <div className="relative z-10 p-8">
 
-        {/* ================= HEADER ================= */}
+        {/*  HEADER */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ function MyTrip() {
           </p>
         </motion.div>
 
-        {/* ================= STATS ================= */}
+        {/* STATS */}
         <div className="grid md:grid-cols-4 gap-6 mb-10">
           <StatCard title="Destinations" value={itinerary.length} />
           <StatCard title="Estimated Budget" value={`$${totalBudget}`} />
@@ -50,7 +50,7 @@ function MyTrip() {
           <StatCard title="Completion" value={`${completion}%`} />
         </div>
 
-        {/* ================= PROGRESS ================= */}
+        {/* PROGRESS */}
         <div className="bg-white/20 dark:bg-gray-800/40 backdrop-blur-md p-6 rounded-xl mb-10">
           <h2 className="font-semibold mb-3 text-white">
             Trip Planning Progress
@@ -68,7 +68,7 @@ function MyTrip() {
           </p>
         </div>
 
-        {/* ================= DESTINATIONS ================= */}
+        {/* DESTINATIONS */}
         <div>
           <h2 className="text-2xl font-bold mb-6 text-white">
             Saved Destinations

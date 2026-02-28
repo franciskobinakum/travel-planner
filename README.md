@@ -1,59 +1,182 @@
-# Travel Planner 🌍
+Travel Planner App
 
-A Travel Planner web application built using React, Tailwind CSS, and the Amadeus API.
+A modern, responsive Travel Planner web application built with React, Tailwind CSS, and real-world API integrations.
 
-## Project Description
+This application allows users to search destinations, preview travel routes, explore flights and hotels, and manage trip planning — all with dark mode support and animated UI transitions.
 
-This application allows users to search for destinations worldwide. It integrates the Amadeus API to fetch real-time location data and displays city information dynamically.
+ Project Overview
 
-## Features
+The Travel Planner App helps users:
 
-- Destination search by city name
-- Real-time API integration with Amadeus
-- Responsive UI with Tailwind CSS
-- Routing with React Router
-- Destination details page
+Search destinations
 
-## Tech Stack
+View route previews on interactive maps
 
-- React (Vite)
-- Tailwind CSS
-- Axios
-- React Router
-- Amadeus API
+Explore flights and hotel options
 
-## Installation & Setup
+Manage travel plans
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/travel-planner.git
-   ```
+Toggle dark/light mode
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+Experience smooth animated transitions
 
-3. Create a `.env` file in the root folder and add:
-   ```
-   VITE_AMADEUS_KEY=your_api_key
-   VITE_AMADEUS_SECRET=your_api_secret
-   ```
+This project demonstrates:
 
-4. Start development server:
-   ```bash
-   npm run dev
-   ```
+API integration
 
-## Known Limitations
+State management
 
-- Currently uses Amadeus test environment
-- Flight and hotel integration in progress
-- No user authentication yet
+Protected routes
 
-## Future Improvements
+UI/UX design
 
-- Flight offers integration
-- Hotel booking integration
-- Itinerary planner feature
-- Deployment to Vercel
+Dark mode implementation
+
+Responsive design
+
+Map integration
+
+ Features
+Destination Search
+
+Search destinations using Wikipedia API
+
+View destination details
+
+Dynamic route preview
+
+Route Preview
+
+Interactive map powered by Leaflet
+
+Displays route between departure city and destination
+
+Real-time coordinate fetching using OpenStreetMap
+
+Flights &  Hotels
+
+Integrated mock + real API-ready structure
+
+Displays flight prices
+
+Displays hotel pricing
+
+Structured for Amadeus API integration
+
+Authentication
+
+Login & Register system
+
+Protected routes
+
+Local storage session handling
+
+Dark Mode
+
+Global dark/light toggle
+
+Persistent theme preference
+
+Tailwind CSS class-based implementation
+
+Responsive Design
+
+Mobile-first layout
+
+Grid-based UI
+
+Smooth animations using Framer Motion
+
+Tech Stack
+
+React (Vite)
+
+React Router
+
+Tailwind CSS
+
+Framer Motion
+
+Leaflet (Map Integration)
+
+Axios
+
+OpenStreetMap API
+
+Wikipedia API
+
+Project Structure
+src/
+│
+├── components/
+│   ├── Navbar.jsx
+│   ├── AnimatedPage.jsx
+│   ├── RouteMap.jsx
+│
+├── context/
+│   ├── ThemeContext.jsx
+│
+├── pages/
+│   ├── Home.jsx
+│   ├── DestinationDetails.jsx
+│   ├── Explore.jsx
+│   ├── MyTrip.jsx
+│   ├── Login.jsx
+│   ├── Register.jsx
+│
+├── App.jsx
+├── main.jsx
+
+⚙ Installation & Setup
+1. Clone Repository
+git clone https://github.com/franciskobinakum/travel-planner.git
+cd travel-planner
+2. Install Dependencies
+npm install
+3. Run Development Server
+npm run dev
+
+
+Dark Mode Implementation
+
+Tailwind configured with:
+
+darkMode: "class"
+
+Theme stored in localStorage
+
+Global ThemeContext manages toggle
+
+Navbar includes theme switch button
+
+ Protected Routes
+
+Home
+
+Destination
+
+Explore
+
+My Trip
+
+Users must login before accessing main pages.
+
+Future Improvements
+
+Real Amadeus API production integration
+
+Budget tracking with charts
+
+AI trip recommendations
+
+Weather integration
+
+PDF itinerary export
+
+Booking confirmation modal
+
+Admin dashboard
+
+
+
+

@@ -44,7 +44,7 @@ function Home() {
   return (
     <div className="min-h-screen">
 
-      {/* ================= HERO ================= */}
+      {/* HERO */}
       <div className="relative h-[80vh] animated-bg flex items-center justify-center overflow-hidden">
 
         <div className="floating-orb w-72 h-72 bg-pink-500 top-10 left-10"></div>
@@ -76,7 +76,7 @@ function Home() {
         </motion.div>
       </div>
 
-      {/* ================= TRENDING DESTINATIONS ================= */}
+      {/* TRENDING DESTINATIONS */}
       <div className="max-w-6xl mx-auto px-6 py-16">
         <h2 className="text-3xl font-bold mb-10 text-center">
           Trending Destinations
@@ -105,7 +105,7 @@ function Home() {
         </div>
       </div>
 
-      {/* ================= WHY CHOOSE US ================= */}
+      {/* WHY CHOOSE US */}
       <div className="bg-gray-100 py-16">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-12">
@@ -136,7 +136,7 @@ function Home() {
         </div>
       </div>
 
-      {/* ================= SEARCH SECTION ================= */}
+      {/* SEARCH SECTION */}
       <div className="max-w-6xl mx-auto p-6">
 
         <SearchBar setDestinations={setDestinations} />

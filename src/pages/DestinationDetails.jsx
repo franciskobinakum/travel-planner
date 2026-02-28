@@ -17,7 +17,7 @@ function DestinationDetails() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // ================= FETCH COORDINATES =================
+  // FETCH COORDINATES 
   const fetchCoordinates = async (city, setter) => {
     try {
       const res = await axios.get(
@@ -41,7 +41,7 @@ function DestinationDetails() {
     }
   }
 
-  // ================= FAKE DATA (UI DEMO) =================
+  // FAKE DATA (UI DEMO) 
   const fetchMockData = () => {
     setFlights([
       { price: { total: 520 }, airline: "Air France" },
@@ -56,7 +56,7 @@ function DestinationDetails() {
     ])
   }
 
-  // ================= LOAD EVERYTHING =================
+  // LOAD EVERYTHING 
   useEffect(() => {
     async function loadData() {
       try {
@@ -97,7 +97,7 @@ function DestinationDetails() {
   return (
     <AnimatedPage>
 
-      {/* ================= HERO ================= */}
+      {/* HERO */}
       <div
         className="relative h-[50vh] bg-cover bg-center flex items-center justify-center"
         style={{
@@ -117,14 +117,14 @@ function DestinationDetails() {
 
       <div className="max-w-6xl mx-auto p-8">
 
-        {/* ================= QUICK STATS ================= */}
+        {/* QUICK STATS */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           <StatCard title="Flights Available" value={flights.length} />
           <StatCard title="Hotels Available" value={hotels.length} />
           <StatCard title="Departure City" value={departureCity} />
         </div>
 
-        {/* ================= ROUTE MAP ================= */}
+        {/* ROUTE MAP */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow transition mb-12">
           <h2 className="text-2xl font-semibold mb-4">
             Route Preview
@@ -146,7 +146,7 @@ function DestinationDetails() {
           )}
         </div>
 
-        {/* ================= FLIGHTS ================= */}
+        {/* FLIGHTS */}
         <h2 className="text-2xl font-semibold mb-6">Flights</h2>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -165,7 +165,7 @@ function DestinationDetails() {
           ))}
         </div>
 
-        {/* ================= HOTELS ================= */}
+        {/* HOTELS */}
         <h2 className="text-2xl font-semibold mt-12 mb-6">Hotels</h2>
 
         <div className="grid md:grid-cols-2 gap-6">
